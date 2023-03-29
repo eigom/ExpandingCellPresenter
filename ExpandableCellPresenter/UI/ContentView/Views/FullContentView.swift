@@ -43,7 +43,8 @@ class FullContentView: UIView {
 
     private func layout() {
         addSubview(scrollView)
-        scrollView.autoPinEdgesToSuperviewEdges()
+        scrollView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .bottom)
+        scrollView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 0, relation: .greaterThanOrEqual)
 
         scrollView.addSubview(stackView)
         stackView.autoPinEdgesToSuperviewEdges()

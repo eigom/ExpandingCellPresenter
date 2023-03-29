@@ -8,6 +8,12 @@
 import UIKit
 
 class ExpandingCellPresenter: UIView {
+    enum Failure: Error {
+        case tableViewHasNoParent
+        case failedToSnapshot
+        case notPresented
+    }
+
     private struct Frames {
         let top: CGRect
         let middle: CGRect
@@ -84,9 +90,9 @@ class ExpandingCellPresenter: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func presentView(_ view: UIView, animated: Bool = true) {
-        guard let presentingView = tableView.superview else { return }
-        guard let snapshot = snapshot(of: tableView) else { return }
+    func presentView(_ view: UIView, animated: Bool = true) throws {
+        guard let presentingView = tableView.superview else { throw Failure.tableViewHasNoParent }
+        guard let snapshot = takeSnapshot(of: tableView) else { throw Failure.failedToSnapshot }
 
         let imageViews = makeImageViews(snapshot, rects: frames)
 
@@ -111,7 +117,7 @@ class ExpandingCellPresenter: UIView {
 
         if animated {
             UIView.animate(
-                withDuration: 5.5,
+                withDuration: 0.5,
                 delay: 0.0,
                 options: [.curveEaseOut])
             {
@@ -126,9 +132,9 @@ class ExpandingCellPresenter: UIView {
         presentedView = view
     }
 
-    func dismiss(animated: Bool = true, adjustScrollView: UIScrollView? = nil) {
-        guard let view = presentedView else { return }
-        guard let snapshot = snapshot(of: tableView) else { return }
+    func dismiss(animated: Bool = true, adjustingScrollView: UIScrollView? = nil) throws {
+        guard let view = presentedView else { throw Failure.notPresented }
+        guard let snapshot = takeSnapshot(of: tableView) else { throw Failure.failedToSnapshot }
 
         let imageViews = makeImageViews(snapshot, rects: frames)
 
@@ -139,11 +145,11 @@ class ExpandingCellPresenter: UIView {
         topConstraint?.constant = frames.middle.origin.y
         bottomConstraint?.constant = -frames.bottom.height
 
-        adjustScrollView?.setContentOffset(.zero, animated: animated)
+        adjustingScrollView?.setContentOffset(.zero, animated: animated)
 
         if animated {
             UIView.animate(
-                withDuration: 5.5,
+                withDuration: 0.5,
                 delay: 0.0,
                 options: [.curveEaseOut]) {
                     self.layoutIfNeeded()
@@ -159,7 +165,7 @@ class ExpandingCellPresenter: UIView {
         clipsToBounds = true
     }
 
-    private func snapshot(of tableView: UITableView) -> CGImage? {
+    private func takeSnapshot(of tableView: UITableView) -> CGImage? {
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(tableView.bounds.size, false, scale)
         defer { UIGraphicsEndImageContext() }

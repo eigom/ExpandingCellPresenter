@@ -49,10 +49,18 @@ class ViewController: UIViewController {
         fullContentView.compactView.textLabel.text = item.text
         fullContentView.longTextLabel.text = item.longText
         fullContentView.onCloseTapped = {
-            presenter.dismiss(adjustScrollView: fullContentView.scrollView)
+            do {
+                try presenter.dismiss(adjustingScrollView: fullContentView.scrollView)
+            } catch {
+                print(error)
+            }
         }
 
-        presenter.presentView(fullContentView)
+        do {
+            try presenter.presentView(fullContentView)
+        } catch {
+            print(error)
+        }
     }
 }
 
