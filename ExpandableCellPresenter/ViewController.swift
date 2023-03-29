@@ -30,7 +30,7 @@ class ViewController: UIViewController {
             ContentItem(
                 title: "Title \($0)",
                 text: "Some text here",
-                longText: String(repeating: "Long text ", count: 100)
+                longText: String(repeating: "Long text ", count: 50)
             )
         }
         content.append(contentsOf: items)
@@ -49,18 +49,10 @@ class ViewController: UIViewController {
         fullContentView.compactView.textLabel.text = item.text
         fullContentView.longTextLabel.text = item.longText
         fullContentView.onCloseTapped = {
-            do {
-                try presenter.dismiss(adjustingScrollView: fullContentView.scrollView)
-            } catch {
-                print(error)
-            }
+            presenter.dismiss(adjustingScrollView: fullContentView.scrollView)
         }
 
-        do {
-            try presenter.presentView(fullContentView)
-        } catch {
-            print(error)
-        }
+        presenter.presentView(fullContentView)
     }
 }
 

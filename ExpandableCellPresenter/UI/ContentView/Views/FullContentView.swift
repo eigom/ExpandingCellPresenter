@@ -14,6 +14,7 @@ class FullContentView: UIView {
     var onCloseTapped: (() -> Void)?
 
     private let stackView = UIStackView()
+    private let contentView = UIView()
     private let closeButton = UIButton()
 
     init() {
@@ -46,14 +47,20 @@ class FullContentView: UIView {
         scrollView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .bottom)
         scrollView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 0, relation: .greaterThanOrEqual)
 
-        scrollView.addSubview(stackView)
-        stackView.autoPinEdgesToSuperviewEdges()
-        stackView.autoMatch(.width, to: .width, of: scrollView)
+        scrollView.addSubview(contentView)
+        contentView.autoPinEdgesToSuperviewEdges()
+        contentView.autoMatch(.width, to: .width, of: scrollView)
         NSLayoutConstraint.autoSetPriority(.defaultLow) {
-            stackView.autoMatch(.height, to: .height, of: scrollView)
+            contentView.autoMatch(.height, to: .height, of: scrollView)
         }
 
-        stackView.addArrangedSubview(compactView)
+        contentView.addSubview(compactView)
+        compactView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .bottom)
+
+        contentView.addSubview(stackView)
+        stackView.autoPinEdgesToSuperviewEdges(with: .init(top: 0, left: 20, bottom: 0, right: 20), excludingEdge: .top)
+        stackView.autoPinEdge(.top, to: .bottom, of: compactView)
+
         stackView.addArrangedSubview(longTextLabel)
         stackView.addArrangedSubview(closeButton)
 

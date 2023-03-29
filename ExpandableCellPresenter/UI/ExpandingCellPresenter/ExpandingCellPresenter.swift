@@ -43,6 +43,11 @@ class ExpandingCellPresenter: UIView {
         }
     }
 
+    var presentationDuration: TimeInterval = 5.3
+    var dismissDuration: TimeInterval = 0.3
+    var presentationOptions: UIView.AnimationOptions = [.curveEaseIn]
+    var dismissOptions: UIView.AnimationOptions = [.curveEaseIn]
+
     private let tableView: UITableView
     private let indexPath: IndexPath
     private var presentedView: UIView?
@@ -93,9 +98,10 @@ class ExpandingCellPresenter: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func presentView(_ view: UIView, animated: Bool = true) throws {
-        guard let presentingView = tableView.superview else { throw Failure.tableViewHasNoParent }
-        guard let snapshot = takeSnapshot(of: tableView) else { throw Failure.failedToSnapshot }
+    @discardableResult
+    func presentView(_ view: UIView, animated: Bool = true) -> Result<Void, Failure> {
+        guard let presentingView = tableView.superview else { return .failure(.tableViewHasNoParent) }
+        guard let snapshot = takeSnapshot(of: tableView) else { return .failure(.failedToSnapshot) }
 
         presentingView.insertSubview(self, aboveSubview: tableView)
         autoPinEdge(.leading, to: .leading, of: tableView)
@@ -119,9 +125,9 @@ class ExpandingCellPresenter: UIView {
 
         if animated {
             UIView.animate(
-                withDuration: 0.5,
+                withDuration: presentationDuration,
                 delay: 0.0,
-                options: [.curveEaseOut])
+                options: presentationOptions)
             {
                 self.layoutIfNeeded()
             } completion: { _ in
@@ -132,11 +138,14 @@ class ExpandingCellPresenter: UIView {
         }
 
         presentedView = view
+
+        return .success(())
     }
 
-    func dismiss(animated: Bool = true, adjustingScrollView: UIScrollView? = nil) throws {
-        guard let view = presentedView else { throw Failure.notPresented }
-        guard let snapshot = takeSnapshot(of: tableView) else { throw Failure.failedToSnapshot }
+    @discardableResult
+    func dismiss(animated: Bool = true, adjustingScrollView: UIScrollView? = nil) -> Result<Void, Failure> {
+        guard let view = presentedView else { return .failure(.notPresented) }
+        guard let snapshot = takeSnapshot(of: tableView) else { return .failure(.failedToSnapshot) }
 
         let snapshotViews = makeSnapshotViews(from: snapshot, using: snapshotFrames)
         snapshotViews.attach(to: view, in: self)
@@ -150,9 +159,9 @@ class ExpandingCellPresenter: UIView {
 
         if animated {
             UIView.animate(
-                withDuration: 0.5,
+                withDuration: dismissDuration,
                 delay: 0.0,
-                options: [.curveEaseOut]) {
+                options: dismissOptions) {
                     self.layoutIfNeeded()
                 } completion: { _ in
                     self.removeFromSuperview()
@@ -160,6 +169,8 @@ class ExpandingCellPresenter: UIView {
         } else {
             removeFromSuperview()
         }
+
+        return .success(())
     }
 
     private func setup() {
