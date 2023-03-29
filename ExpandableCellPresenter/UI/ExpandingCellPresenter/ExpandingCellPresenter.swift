@@ -43,8 +43,8 @@ class ExpandingCellPresenter: UIView {
         }
     }
 
-    var presentationDuration: TimeInterval = 5.3
-    var dismissDuration: TimeInterval = 0.3
+    var presentationDuration: TimeInterval = 2.5
+    var dismissDuration: TimeInterval = 0.5
     var presentationOptions: UIView.AnimationOptions = [.curveEaseIn]
     var dismissOptions: UIView.AnimationOptions = [.curveEaseIn]
 
@@ -221,7 +221,10 @@ class ExpandingCellPresenter: UIView {
 extension CGRect {
     static func *(rect: CGRect, multiplier: CGFloat) -> CGRect {
         return CGRect(
-            origin: rect.origin,
+            origin: CGPoint(
+                x: rect.origin.x * multiplier,
+                y: rect.origin.y * multiplier
+            ),
             size: CGSize(
                 width: rect.size.width * multiplier,
                 height: rect.size.height * multiplier
