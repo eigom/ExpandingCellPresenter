@@ -5,6 +5,9 @@
 //  Created by Eigo Madaloja on 29.03.2023.
 //
 
+// TODO: expose anim params
+// try snapshot view taking methods
+
 import UIKit
 
 class ExpandingCellPresenter: UIView {
@@ -207,10 +210,11 @@ class ExpandingCellPresenter: UIView {
 extension CGRect {
     static func *(rect: CGRect, multiplier: CGFloat) -> CGRect {
         return CGRect(
-            x: rect.origin.x * multiplier,
-            y: rect.origin.y * multiplier,
-            width: rect.size.width * multiplier,
-            height: rect.size.height * multiplier
+            origin: rect.origin,
+            size: CGSize(
+                width: rect.size.width * multiplier,
+                height: rect.size.height * multiplier
+            )
         )
     }
 }
