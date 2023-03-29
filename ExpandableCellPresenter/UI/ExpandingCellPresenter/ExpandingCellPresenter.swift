@@ -91,14 +91,14 @@ class ExpandingCellPresenter: UIView {
         let imageViews = makeImageViews(snapshot, rects: frames)
 
         presentingView.insertSubview(self, aboveSubview: tableView)
-        autoPinEdge(.left, to: .left, of: tableView)
-        autoPinEdge(.right, to: .right, of: tableView)
-        autoMatch(.height, to: .height, of: tableView)
-        autoMatch(.width, to: .width, of: tableView)
+        autoPinEdge(.leading, to: .leading, of: tableView)
+        autoPinEdge(.trailing, to: .trailing, of: tableView)
+        autoPinEdge(.top, to: .top, of: tableView)
+        autoPinEdge(.bottom, to: .bottom, of: tableView)
 
         addSubview(view)
-        view.autoPinEdge(toSuperviewEdge: .left)
-        view.autoPinEdge(toSuperviewEdge: .right)
+        view.autoPinEdge(toSuperviewEdge: .leading)
+        view.autoPinEdge(toSuperviewEdge: .trailing)
         topConstraint = view.autoPinEdge(toSuperviewEdge: .top, withInset: frames.middle.origin.y)
         bottomConstraint = view.autoPinEdge(toSuperviewEdge: .bottom, withInset: frames.bottom.height)
 
@@ -143,7 +143,7 @@ class ExpandingCellPresenter: UIView {
 
         if animated {
             UIView.animate(
-                withDuration: 0.5,
+                withDuration: 5.5,
                 delay: 0.0,
                 options: [.curveEaseOut]) {
                     self.layoutIfNeeded()

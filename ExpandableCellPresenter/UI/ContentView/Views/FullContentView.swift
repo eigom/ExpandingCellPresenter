@@ -55,6 +55,8 @@ class FullContentView: UIView {
         stackView.addArrangedSubview(compactView)
         stackView.addArrangedSubview(longTextLabel)
         stackView.addArrangedSubview(closeButton)
+
+        closeButton.autoSetDimension(.height, toSize: 40)
     }
 
     @objc
