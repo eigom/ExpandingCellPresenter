@@ -20,23 +20,23 @@ class ExpandingCellPresenter: UIView {
         let bottom: CGRect
     }
 
-    private struct ImageViews {
-        let top: UIImageView
-        let bottom: UIImageView
+    private struct SnapshotViews {
+        let topView: UIView
+        let bottomView: UIView
 
         func attach(to view: UIView, in parentView: UIView) {
-            parentView.addSubview(top)
-            top.autoPinEdge(.bottom, to: .top, of: view)
-            top.autoAlignAxis(.vertical, toSameAxisOf: view)
+            parentView.addSubview(topView)
+            topView.autoPinEdge(.bottom, to: .top, of: view)
+            topView.autoAlignAxis(.vertical, toSameAxisOf: view)
 
-            parentView.addSubview(bottom)
-            bottom.autoPinEdge(.top, to: .bottom, of: view)
-            bottom.autoAlignAxis(.vertical, toSameAxisOf: view)
+            parentView.addSubview(bottomView)
+            bottomView.autoPinEdge(.top, to: .bottom, of: view)
+            bottomView.autoAlignAxis(.vertical, toSameAxisOf: view)
         }
 
         func removeFromSuperview() {
-            top.removeFromSuperview()
-            bottom.removeFromSuperview()
+            topView.removeFromSuperview()
+            bottomView.removeFromSuperview()
         }
     }
 
@@ -46,7 +46,7 @@ class ExpandingCellPresenter: UIView {
     private var topConstraint: NSLayoutConstraint?
     private var bottomConstraint: NSLayoutConstraint?
 
-    private var frames: Frames {
+    private var snapshotFrames: Frames {
         let cellRect = tableView.convert(
             tableView.rectForRow(at: indexPath),
             to: tableView
@@ -94,8 +94,6 @@ class ExpandingCellPresenter: UIView {
         guard let presentingView = tableView.superview else { throw Failure.tableViewHasNoParent }
         guard let snapshot = takeSnapshot(of: tableView) else { throw Failure.failedToSnapshot }
 
-        let imageViews = makeImageViews(snapshot, rects: frames)
-
         presentingView.insertSubview(self, aboveSubview: tableView)
         autoPinEdge(.leading, to: .leading, of: tableView)
         autoPinEdge(.trailing, to: .trailing, of: tableView)
@@ -105,10 +103,11 @@ class ExpandingCellPresenter: UIView {
         addSubview(view)
         view.autoPinEdge(toSuperviewEdge: .leading)
         view.autoPinEdge(toSuperviewEdge: .trailing)
-        topConstraint = view.autoPinEdge(toSuperviewEdge: .top, withInset: frames.middle.origin.y)
-        bottomConstraint = view.autoPinEdge(toSuperviewEdge: .bottom, withInset: frames.bottom.height)
+        topConstraint = view.autoPinEdge(toSuperviewEdge: .top, withInset: snapshotFrames.middle.origin.y)
+        bottomConstraint = view.autoPinEdge(toSuperviewEdge: .bottom, withInset: snapshotFrames.bottom.height)
 
-        imageViews.attach(to: view, in: self)
+        let snapshotViews = makeSnapshotViews(from: snapshot, using: snapshotFrames)
+        snapshotViews.attach(to: view, in: self)
 
         layoutIfNeeded()
 
@@ -123,10 +122,10 @@ class ExpandingCellPresenter: UIView {
             {
                 self.layoutIfNeeded()
             } completion: { _ in
-                imageViews.removeFromSuperview()
+                snapshotViews.removeFromSuperview()
             }
         } else {
-            imageViews.removeFromSuperview()
+            snapshotViews.removeFromSuperview()
         }
 
         presentedView = view
@@ -136,14 +135,13 @@ class ExpandingCellPresenter: UIView {
         guard let view = presentedView else { throw Failure.notPresented }
         guard let snapshot = takeSnapshot(of: tableView) else { throw Failure.failedToSnapshot }
 
-        let imageViews = makeImageViews(snapshot, rects: frames)
-
-        imageViews.attach(to: view, in: self)
+        let snapshotViews = makeSnapshotViews(from: snapshot, using: snapshotFrames)
+        snapshotViews.attach(to: view, in: self)
 
         layoutIfNeeded()
 
-        topConstraint?.constant = frames.middle.origin.y
-        bottomConstraint?.constant = -frames.bottom.height
+        topConstraint?.constant = snapshotFrames.middle.origin.y
+        bottomConstraint?.constant = -snapshotFrames.bottom.height
 
         adjustingScrollView?.setContentOffset(.zero, animated: animated)
 
@@ -178,21 +176,16 @@ class ExpandingCellPresenter: UIView {
         return UIGraphicsGetImageFromCurrentImageContext()?.cgImage
     }
 
-    private func makeImageViews(_ image: CGImage, rects: Frames) -> ImageViews {
-        let top = makeImageView(image, rect: rects.top) ?? makeEmptyImageView(width: image.width)
-        let bottom = makeImageView(image, rect: rects.bottom) ?? makeEmptyImageView(width: image.width)
+    private func makeSnapshotViews(from image: CGImage, using frames: Frames) -> SnapshotViews {
+        let topView = cropSnapshotView(from: image, with: frames.top) ?? makeEmptySnapshotView(width: image.width)
+        let bottomView = cropSnapshotView(from: image, with: frames.bottom) ?? makeEmptySnapshotView(width: image.width)
 
-        return ImageViews(top: top, bottom: bottom)
+        return SnapshotViews(topView: topView, bottomView: bottomView)
     }
 
-    private func makeImageView(_ image: CGImage, rect: CGRect) -> UIImageView? {
+    private func cropSnapshotView(from image: CGImage, with frame: CGRect) -> UIView? {
         let scale = UIScreen.main.scale
-        let scaledRect = CGRect(
-            x: rect.origin.x * scale,
-            y: rect.origin.y * scale,
-            width: rect.size.width * scale,
-            height: rect.size.height * scale
-        )
+        let scaledRect = frame * scale
 
         guard let cropped = image.cropping(to: scaledRect) else { return nil }
 
@@ -203,11 +196,21 @@ class ExpandingCellPresenter: UIView {
         return imageView
     }
 
-    private func makeEmptyImageView(width: Int) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.autoSetDimensions(to: CGSize(width: width, height: 0))
+    private func makeEmptySnapshotView(width: Int) -> UIView {
+        let view = UIView()
+        view.autoSetDimensions(to: CGSize(width: width, height: 0))
 
-        return imageView
+        return view
     }
 }
 
+extension CGRect {
+    static func *(rect: CGRect, multiplier: CGFloat) -> CGRect {
+        return CGRect(
+            x: rect.origin.x * multiplier,
+            y: rect.origin.y * multiplier,
+            width: rect.size.width * multiplier,
+            height: rect.size.height * multiplier
+        )
+    }
+}
