@@ -1,5 +1,5 @@
 //
-//  ContentTableView.swift
+//  ContentListView.swift
 //  ExpandableCellPresenter
 //
 //  Created by Eigo Madaloja on 28.03.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContentTableView: UIView {
+class ContentListView: UIView {
     let tableView = UITableView()
 
     init() {

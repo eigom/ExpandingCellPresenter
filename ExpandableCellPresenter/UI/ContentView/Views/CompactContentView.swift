@@ -28,7 +28,10 @@ class CompactContentView: UIView {
         stackView.spacing = 5
 
         titleLabel.font = .boldSystemFont(ofSize: 18)
+        titleLabel.numberOfLines = 0
+
         textLabel.font = .systemFont(ofSize: 15)
+        textLabel.numberOfLines = 0
     }
 
     private func layout() {

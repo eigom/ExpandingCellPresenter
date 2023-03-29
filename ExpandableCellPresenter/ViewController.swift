@@ -15,11 +15,12 @@ struct ContentItem {
 
 class ViewController: UIViewController {
     private var content = [ContentItem]()
+    private let contentListView = ContentListView()
 
     override public func loadView() {
-        let view = ContentTableView()
-        self.view = view
-        bind(to: view)
+        view = contentListView
+        contentListView.tableView.dataSource = self
+        contentListView.tableView.delegate = self
     }
 
     override func viewDidLoad() {
@@ -35,9 +36,23 @@ class ViewController: UIViewController {
         content.append(contentsOf: items)
     }
 
-    private func bind(to view: ContentTableView) {
-        view.tableView.dataSource = self
-        view.tableView.delegate = self
+    private func presentFullContent(at indexPath: IndexPath) {
+        let item = content[indexPath.row]
+
+        let presenter = ExpandingCellPresenter(
+            tableView: contentListView.tableView,
+            indexPath: indexPath
+        )
+
+        let fullContentView = FullContentView()
+        fullContentView.compactView.titleLabel.text = item.title
+        fullContentView.compactView.textLabel.text = item.text
+        fullContentView.longTextLabel.text = item.longText
+        fullContentView.onCloseTapped = {
+            presenter.dismiss(adjustScrollView: fullContentView.scrollView)
+        }
+
+        presenter.presentView(fullContentView)
     }
 }
 
@@ -48,15 +63,17 @@ extension ViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContentCell.reuseIdentifier, for: indexPath) as! ContentCell
-        let content = content[indexPath.row]
+        let item = content[indexPath.row]
         let contentView = CompactContentView()
-        contentView.titleLabel.text = content.title
-        contentView.textLabel.text = content.text
+        contentView.titleLabel.text = item.title
+        contentView.textLabel.text = item.text
         cell.view = contentView
         return cell
     }
 }
 
 extension ViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presentFullContent(at: indexPath)
+    }
 }

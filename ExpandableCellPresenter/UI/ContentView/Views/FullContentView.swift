@@ -9,11 +9,11 @@ import UIKit
 
 class FullContentView: UIView {
     let compactView = CompactContentView()
+    let longTextLabel = UILabel()
     let scrollView = UIScrollView()
     var onCloseTapped: (() -> Void)?
 
     private let stackView = UIStackView()
-    private let longTextLabel = UILabel()
     private let closeButton = UIButton()
 
     init() {
@@ -30,11 +30,14 @@ class FullContentView: UIView {
         backgroundColor = .white
 
         stackView.axis = .vertical
-        stackView.spacing = 30
+        stackView.spacing = 20
 
         longTextLabel.font = .systemFont(ofSize: 16)
+        longTextLabel.numberOfLines = 0
 
+        closeButton.backgroundColor = .blue
         closeButton.setTitle("CLOSE", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
     }
 
