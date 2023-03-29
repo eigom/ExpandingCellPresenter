@@ -43,7 +43,7 @@ class ExpandingCellPresenter: UIView {
         }
     }
 
-    var presentationDuration: TimeInterval = 2.5
+    var presentationDuration: TimeInterval = 0.5
     var dismissDuration: TimeInterval = 0.5
     var presentationOptions: UIView.AnimationOptions = [.curveEaseIn]
     var dismissOptions: UIView.AnimationOptions = [.curveEaseIn]

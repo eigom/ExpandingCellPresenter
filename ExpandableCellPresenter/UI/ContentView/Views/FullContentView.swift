@@ -30,6 +30,8 @@ class FullContentView: UIView {
     private func setup() {
         backgroundColor = .white
 
+        scrollView.contentInsetAdjustmentBehavior = .never
+
         stackView.axis = .vertical
         stackView.spacing = 20
 
