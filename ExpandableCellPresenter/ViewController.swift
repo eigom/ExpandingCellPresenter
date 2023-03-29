@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let items = (0..<20).map {
+        let items = (0..<40).map {
             ContentItem(
                 title: "Title \($0)",
                 text: "Some text here",
@@ -47,7 +47,7 @@ extension ViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ContentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContentCell.reuseIdentifier, for: indexPath) as! ContentCell
         let content = content[indexPath.row]
         let contentView = CompactContentView()
         contentView.titleLabel.text = content.title

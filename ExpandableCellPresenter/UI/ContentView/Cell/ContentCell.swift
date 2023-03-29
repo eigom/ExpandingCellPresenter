@@ -21,6 +21,8 @@ class ContentCell: UITableViewCell {
         }
     }
 
+    static let reuseIdentifier = String(describing: ContentCell.self)
+
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()

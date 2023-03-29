@@ -21,9 +21,11 @@ class ContentTableView: UIView {
     }
 
     private func setup() {
+        backgroundColor = .lightGray
+
         tableView.register(
             ContentCell.self,
-            forCellReuseIdentifier: String(describing: ContentCell.self)
+            forCellReuseIdentifier: ContentCell.reuseIdentifier
         )
         tableView.separatorInset = .init(top: 0, left: 20, bottom: 0, right: 20)
         tableView.rowHeight = UITableView.automaticDimension
@@ -32,6 +34,6 @@ class ContentTableView: UIView {
 
     private func layout() {
         addSubview(tableView)
-        tableView.autoPinEdgesToSuperviewEdges(with: .init(top: 20, left: 20, bottom: 20, right: 20))
+        tableView.autoPinEdgesToSuperviewSafeArea(with: .init(top: 20, left: 20, bottom: 20, right: 20))
     }
 }

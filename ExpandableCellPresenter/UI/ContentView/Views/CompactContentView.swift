@@ -25,7 +25,7 @@ class CompactContentView: UIView {
 
     private func setup() {
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 5
 
         titleLabel.font = .boldSystemFont(ofSize: 18)
         textLabel.font = .systemFont(ofSize: 15)
@@ -33,7 +33,7 @@ class CompactContentView: UIView {
 
     private func layout() {
         addSubview(stackView)
-        stackView.autoPinEdgesToSuperviewEdges()
+        stackView.autoPinEdgesToSuperviewEdges(with: .init(top: 5, left: 20, bottom: 5, right: 20))
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(textLabel)
