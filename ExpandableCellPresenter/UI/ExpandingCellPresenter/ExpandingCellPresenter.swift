@@ -5,9 +5,6 @@
 //  Created by Eigo Madaloja on 29.03.2023.
 //
 
-// TODO: expose anim params
-// try snapshot view taking methods
-
 import UIKit
 
 class ExpandingCellPresenter: UIView {
@@ -30,11 +27,13 @@ class ExpandingCellPresenter: UIView {
         func attach(to view: UIView, in parentView: UIView) {
             parentView.addSubview(topView)
             topView.autoPinEdge(.bottom, to: .top, of: view)
-            topView.autoAlignAxis(.vertical, toSameAxisOf: view)
+            topView.autoPinEdge(.left, to: .left, of: view)
+            topView.autoPinEdge(.right, to: .right, of: view)
 
             parentView.addSubview(bottomView)
             bottomView.autoPinEdge(.top, to: .bottom, of: view)
-            bottomView.autoAlignAxis(.vertical, toSameAxisOf: view)
+            bottomView.autoPinEdge(.left, to: .left, of: view)
+            bottomView.autoPinEdge(.right, to: .right, of: view)
         }
 
         func removeFromSuperview() {
@@ -107,14 +106,14 @@ class ExpandingCellPresenter: UIView {
         guard let snapshotViews = makeSnapshotViews(of: tableView, using: snapshotFrames) else { return .failure(.failedToSnapshot) }
 
         presentingView.insertSubview(self, aboveSubview: tableView)
-        autoPinEdge(.leading, to: .leading, of: tableView)
-        autoPinEdge(.trailing, to: .trailing, of: tableView)
+        autoPinEdge(.left, to: .left, of: tableView)
+        autoPinEdge(.right, to: .right, of: tableView)
         autoPinEdge(.top, to: .top, of: tableView)
         autoPinEdge(.bottom, to: .bottom, of: tableView)
 
         addSubview(view)
-        view.autoPinEdge(toSuperviewEdge: .leading)
-        view.autoPinEdge(toSuperviewEdge: .trailing)
+        view.autoPinEdge(toSuperviewEdge: .left)
+        view.autoPinEdge(toSuperviewEdge: .right)
         topConstraint = view.autoPinEdge(toSuperviewEdge: .top, withInset: snapshotFrames.middle.origin.y)
         bottomConstraint = view.autoPinEdge(toSuperviewEdge: .bottom, withInset: snapshotFrames.bottom.height)
 
@@ -191,7 +190,7 @@ class ExpandingCellPresenter: UIView {
             afterScreenUpdates: false,
             withCapInsets: .zero
         )
-        snapshotView?.autoSetDimensions(to: frame.size)
+        snapshotView?.autoSetDimension(.height, toSize: frame.size.height)
 
         return snapshotView
     }
