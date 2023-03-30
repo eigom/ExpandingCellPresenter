@@ -8,7 +8,7 @@
 import UIKit
 
 class ExpandingCellPresenter: UIView {
-    enum Failure: Error {
+    enum Error: Swift.Error {
         case tableViewHasNoParent
         case failedToSnapshot
         case notPresented
@@ -101,7 +101,7 @@ class ExpandingCellPresenter: UIView {
     }
 
     @discardableResult
-    func presentView(_ view: UIView, animated: Bool = true) -> Result<Void, Failure> {
+    func presentView(_ view: UIView, animated: Bool = true) -> Result<Void, Error> {
         guard let presentingView = tableView.superview else { return .failure(.tableViewHasNoParent) }
         guard let snapshotViews = makeSnapshotViews(of: tableView, using: snapshotFrames) else { return .failure(.failedToSnapshot) }
 
@@ -144,7 +144,7 @@ class ExpandingCellPresenter: UIView {
     }
 
     @discardableResult
-    func dismiss(animated: Bool = true, adjustingScrollView: UIScrollView? = nil) -> Result<Void, Failure> {
+    func dismiss(animated: Bool = true, adjustingScrollView: UIScrollView? = nil) -> Result<Void, Error> {
         guard let view = presentedView else { return .failure(.notPresented) }
         guard let snapshotViews = makeSnapshotViews(of: tableView, using: snapshotFrames) else { return .failure(.failedToSnapshot) }
 

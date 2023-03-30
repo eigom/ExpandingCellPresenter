@@ -36,7 +36,7 @@ class CompactContentView: UIView {
 
     private func layout() {
         addSubview(stackView)
-        stackView.autoPinEdgesToSuperviewEdges(with: .init(top: 5, left: 20, bottom: 5, right: 20))
+        stackView.autoPinEdgesToSuperviewEdges(with: .init(top: 20, left: 20, bottom: 20, right: 20))
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(textLabel)
