@@ -20,7 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1AA38CA929D34BB700DB3F60 /* ExpandableCellPresenter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpandableCellPresenter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AA38CA929D34BB700DB3F60 /* ExpandingCellPresenter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpandingCellPresenter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AA38CAC29D34BB700DB3F60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AA38CB029D34BB700DB3F60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1AA38CB529D34BB900DB3F60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		1AA38CA029D34BB700DB3F60 = {
 			isa = PBXGroup;
 			children = (
-				1AA38CAB29D34BB700DB3F60 /* ExpandableCellPresenter */,
+				1AA38CAB29D34BB700DB3F60 /* ExpandingCellPresenter */,
 				1AA38CAA29D34BB700DB3F60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,12 +56,12 @@
 		1AA38CAA29D34BB700DB3F60 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1AA38CA929D34BB700DB3F60 /* ExpandableCellPresenter.app */,
+				1AA38CA929D34BB700DB3F60 /* ExpandingCellPresenter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1AA38CAB29D34BB700DB3F60 /* ExpandableCellPresenter */ = {
+		1AA38CAB29D34BB700DB3F60 /* ExpandingCellPresenter */ = {
 			isa = PBXGroup;
 			children = (
 				1AA38CC329D3507A00DB3F60 /* UI */,
@@ -71,7 +71,7 @@
 				1AA38CB729D34BB900DB3F60 /* LaunchScreen.storyboard */,
 				1AA38CBA29D34BB900DB3F60 /* Info.plist */,
 			);
-			path = ExpandableCellPresenter;
+			path = ExpandingCellPresenter;
 			sourceTree = "<group>";
 		};
 		1AA38CC329D3507A00DB3F60 /* UI */ = {
@@ -121,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1AA38CA829D34BB700DB3F60 /* ExpandableCellPresenter */ = {
+		1AA38CA829D34BB700DB3F60 /* ExpandingCellPresenter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1AA38CBD29D34BB900DB3F60 /* Build configuration list for PBXNativeTarget "ExpandableCellPresenter" */;
+			buildConfigurationList = 1AA38CBD29D34BB900DB3F60 /* Build configuration list for PBXNativeTarget "ExpandingCellPresenter" */;
 			buildPhases = (
 				1AA38CA529D34BB700DB3F60 /* Sources */,
 				1AA38CA629D34BB700DB3F60 /* Frameworks */,
@@ -133,12 +133,12 @@
 			);
 			dependencies = (
 			);
-			name = ExpandableCellPresenter;
+			name = ExpandingCellPresenter;
 			packageProductDependencies = (
 				1AA38CC129D34F0000DB3F60 /* PureLayout */,
 			);
 			productName = ExpandableCellPresenter;
-			productReference = 1AA38CA929D34BB700DB3F60 /* ExpandableCellPresenter.app */;
+			productReference = 1AA38CA929D34BB700DB3F60 /* ExpandingCellPresenter.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -156,7 +156,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1AA38CA429D34BB700DB3F60 /* Build configuration list for PBXProject "ExpandableCellPresenter" */;
+			buildConfigurationList = 1AA38CA429D34BB700DB3F60 /* Build configuration list for PBXProject "ExpandingCellPresenter" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -172,7 +172,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1AA38CA829D34BB700DB3F60 /* ExpandableCellPresenter */,
+				1AA38CA829D34BB700DB3F60 /* ExpandingCellPresenter */,
 			);
 		};
 /* End PBXProject section */
@@ -340,7 +340,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ExpandableCellPresenter/Info.plist;
+				INFOPLIST_FILE = ExpandingCellPresenter/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -352,7 +352,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Eigo-Madaloja.ExpandableCellPresenter";
+				PRODUCT_BUNDLE_IDENTIFIER = "Eigo-Madaloja.ExpandingCellPresenter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -368,7 +368,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ExpandableCellPresenter/Info.plist;
+				INFOPLIST_FILE = ExpandingCellPresenter/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -380,7 +380,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Eigo-Madaloja.ExpandableCellPresenter";
+				PRODUCT_BUNDLE_IDENTIFIER = "Eigo-Madaloja.ExpandingCellPresenter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -391,7 +391,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1AA38CA429D34BB700DB3F60 /* Build configuration list for PBXProject "ExpandableCellPresenter" */ = {
+		1AA38CA429D34BB700DB3F60 /* Build configuration list for PBXProject "ExpandingCellPresenter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AA38CBB29D34BB900DB3F60 /* Debug */,
@@ -400,7 +400,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1AA38CBD29D34BB900DB3F60 /* Build configuration list for PBXNativeTarget "ExpandableCellPresenter" */ = {
+		1AA38CBD29D34BB900DB3F60 /* Build configuration list for PBXNativeTarget "ExpandingCellPresenter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AA38CBE29D34BB900DB3F60 /* Debug */,
