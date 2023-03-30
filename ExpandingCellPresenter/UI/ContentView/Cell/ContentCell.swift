@@ -26,7 +26,6 @@ class ContentCell: UITableViewCell {
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
-        layout()
     }
 
     @available(*, unavailable)
@@ -42,7 +41,5 @@ class ContentCell: UITableViewCell {
     private func setup() {
         selectionStyle = .none
     }
-
-    private func layout() {}
 }
 
